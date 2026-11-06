@@ -6,7 +6,7 @@
   <title>moririn — Pastel Scrapbook Store</title>
 
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.tailwindcss.com/3.4.17"></script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,6 +45,8 @@
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+    /* Keep overlays hidden even when the external stylesheet is unavailable. */
+    .hidden { display: none; }
     /* Smooth transition when switching tabs */
     .page-section {
       display: none;
