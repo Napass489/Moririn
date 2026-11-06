@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>moririn — Pastel Scrapbook Store</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Itim&family=Mali:wght@500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    :root {
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #F3ECE6;
+      color: #6E5346;
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+    }
+    .font-cute {
+      font-family: 'Mali', 'Itim', cursive, sans-serif;
+    }
+    .font-eng {
+      font-family: 'Fredoka', 'Prompt', sans-serif;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Smooth transition when switching tabs */
+    .page-section {
+      display: none;
+      animation: pageFadeIn 0.25s ease-out;
+    }
+    .page-section.active {
+      display: block;
+    }
+    @keyframes pageFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Scallop stamp divider for Image 2 Horizontal Cards */
+    .scallop-divider {
+      position: relative;
+    }
+    .scallop-divider::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -6px;
+      width: 12px;
+      background-image: radial-gradient(circle at 0 6px, transparent 4.5px, #FFFFFF 5px);
+      background-size: 12px 12px;
+      z-index: 10;
+    }
+    /* Lined notebook paper for Image 4 & Image 6 */
+    .notebook-paper {
+      background-color: #FFFDFB;
+      background-image: linear-gradient(#F3E3E8 1px, transparent 1px);
+      background-size: 100% 24px;
+    }
+    /* Pink grid pattern for Image 7 Cafe Menu */
+    .pink-grid-bg {
+      background-color: #FCE4EC;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.65) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.65) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .soft-card-shadow {
+      box-shadow: 0 6px 20px -4px rgba(110, 83, 70, 0.12), 0 2px 6px -1px rgba(110, 83, 70, 0.06);
+    }
+    .bottom-nav-shadow {
+      box-shadow: 0 10px 30px -5px rgba(110, 83, 70, 0.22), 0 4px 12px -2px rgba(227, 131, 155, 0.18);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center bg-[#F3ECE6]">
+
+  <!-- Main Container (Centered Mobile/Tablet Scrapbook Column) -->
+  <div class="w-full max-w-[480px] min-h-screen bg-[#FCF9F5] shadow-xl relative pb-32 border-x border-[#EFE6DD]">
+
+    <!-- =========================================================
+         SHARED HEADER (เหมือนต้นฉบับทั้ง 8 ภาพ)
+         ========================================================= -->
+    <header class="sticky top-0 z-30 bg-[#FCF9F5]/95 backdrop-blur-md px-3 pt-2.5 pb-2">
+      <div class="bg-white rounded-[26px] px-4 py-2.5 soft-card-shadow border border-[#F5EBE4] flex items-center justify-between">
+        <!-- Left: Circle M + moririn + Page Name + open badge -->
+        <div class="flex items-center gap-3">
+          <button type="button" onclick="openAdminModal()" class="w-11 h-11 rounded-full bg-[#A88F7D] border-[3px] border-[#F4EFEA] shadow-inner flex items-center justify-center text-white font-eng font-bold text-lg shrink-0 active:scale-95 transition">
+            M
+          </button>
+          <div>
+            <h1 class="font-eng font-bold text-[#6E5346] text-lg leading-tight">moririn</h1>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span id="header-page-emoji" class="text-xs">🏠</span>
+              <span id="header-page-label" class="text-xs font-medium text-[#8C7061]">หน้าแรก</span>
+              <span class="ml-0.5 px-2 py-0.5 text-[10px] font-eng font-semibold bg-[#D6F3E0] text-[#499F68] rounded-full leading-none">
+                open
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 3 Pastel Heart Circles -->
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="showToast('บันทึกร้านโปรดเรียบร้อยแล้ว ♡')" class="w-9 h-9 rounded-full bg-[#FAD4DF] flex items-center justify-center text-white shadow-sm active:scale-95 transition">
+            ♥
+          </button>
+          <button type="button" onclick="showToast('ติดต่อแอดมินได้ตลอด 24 ชม. เลยค่ะ ♡')" class="w-9 h-9 rounded-full bg-[#B9DCF9] flex items-center justify-center text-white shadow-sm active:scale-95 transition">
+            ♥
+          </button>
+          <button type="button" onclick="openAdminModal()" class="w-9 h-9 rounded-full bg-[#FCECC2] flex items-center justify-center text-white shadow-sm active:scale-95 transition">
+            ♥
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- =========================================================
+         หน้า 1: หน้าแรก (HOME) — อ้างอิงภาพที่ 1 และ 2
+         ========================================================= -->
+    <main id="page-home" class="page-section active px-3 space-y-4">
+
+      <!-- [ภาพที่ 1] แบนเนอร์และรูปโปรไฟล์ โทนสีฟ้าพาสเทล -->
+      <section class="bg-white rounded-[26px] p-3.5 border-2 border-[#D9ECFF] shadow-sm relative mt-1">
+        <button type="button" onclick="showToast('ยินดีต้อนรับสู่ร้าน moririn ค่า ♡')" class="w-8 h-8 rounded-full bg-[#BCE0FD] text-white flex items-center justify-center absolute -top-2.5 right-3 shadow-sm z-10 font-bold text-xs">
+          •••
+        </button>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <!-- ซ้าย: ช่องค้นหา lovely lady ♡ + รูปโปรไฟล์วงกลม -->
+          <div class="col-span-5 flex flex-col items-center">
+            <div class="w-full bg-[#F2F9FF] border border-[#C6E3FA] rounded-full px-2.5 py-1 flex items-center gap-1 text-[11px] text-[#7BAFD9] font-eng mb-2">
+              <span>🔍</span>
+              <span class="truncate">lovely lady ♡</span>
+            </div>
+            <div class="relative">
+              <div class="w-28 h-28 rounded-full p-1 bg-gradient-to-b from-[#D6ECFF] to-[#B9DCF9] shadow-md">
+                <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=400&q=80"
+                     onerror="this.src='https://placehold.co/240x240/D6ECFF/6E5346?text=Profile'"
+                     alt="Profile"
+                     class="w-full h-full object-cover rounded-full border-2 border-white" />
+              </div>
+              <span class="w-6 h-6 rounded-full bg-[#B9DCF9] text-white flex items-center justify-center text-xs absolute bottom-0 right-0 border-2 border-white">
+                🌀
+              </span>
+            </div>
+          </div>
+
+          <!-- ขวา: แบนเนอร์ + ตุ๊กตากระต่าย + กล่องข้อความสีฟ้า -->
+          <div class="col-span-7 flex flex-col gap-2 relative">
+            <div class="h-28 rounded-2xl overflow-hidden border border-[#DCEEFF] bg-[#F5FAFF] relative shadow-sm">
+              <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80"
+                   onerror="this.src='https://placehold.co/400x220/EBF5FF/6E5346?text=Banner'"
+                   alt="Banner"
+                   class="w-full h-full object-cover" />
+            </div>
+
+            <div class="absolute -right-1 top-16 w-10 h-12 bg-white rounded-2xl border border-[#DCEEFF] shadow-md flex flex-col items-center justify-center text-lg select-none">
+              🐰
+            </div>
+
+            <div class="bg-[#BCE0FD] text-white rounded-2xl px-3 py-2 text-[10px] font-eng leading-relaxed shadow-sm">
+              <div class="flex items-center justify-between">
+                <span>🫧 ™ LILY ROSE 🍵 ★</span>
+                <span>q2414 ❄️</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>★ ☁️ pie-nammy ² !!</span>
+                <span>~ Ocea ❄️</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- [ภาพที่ 1] ไฮไลท์แบบเลื่อนแนวนอน -->
+        <div class="mt-3 pt-2 border-t border-[#EBF5FF]">
+          <div class="flex items-center justify-between mb-2 px-1">
+            <h2 class="text-xs font-bold text-[#523B30]">ไฮไลท์</h2>
+            <span class="text-[10px] text-[#9D8171]">เลื่อนดูแนวนอน ➔</span>
+          </div>
+          <div id="home-highlights-list" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
+            <!-- สร้างด้วย JS พร้อม Fallback -->
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 1] ส่วนรูปภาพแนะนำร้าน (กล่องสีน้ำตาลขอบมน "รูป") -->
+      <section onclick="openInfoModal('รูปภาพแนะนำร้าน moririn', 'ยินดีต้อนรับสู่ร้าน moririn บริการขายรหัสเกม เช่ารหัสเกม และบริการเสริมครบวงจร เครดิตแน่น ปลอดภัย 100%')"
+               class="cursor-pointer bg-[#B59B8B] hover:bg-[#AA8F7E] transition rounded-[22px] h-44 flex flex-col items-center justify-center text-white shadow-sm relative overflow-hidden">
+        <span class="font-cute text-5xl font-bold tracking-wider">รูป</span>
+        <span class="text-[11px] text-white/85 mt-1.5">ส่วนรูปภาพแนะนำร้าน (คลิกดูรายละเอียด)</span>
+      </section>
+
+      <!-- [ภาพที่ 1] โปรโมชั่นแบบกดขยาย + คำถามที่พบบ่อยแบบกดขยาย -->
+      <section class="bg-[#FDFBF9] rounded-[26px] p-3.5 border border-[#EFE5DC] soft-card-shadow space-y-4">
+
+        <!-- แถวบน: รูปซ้าย + กล่อง Promotion ขวา -->
+        <div class="grid grid-cols-12 gap-2.5 items-stretch">
+          <div class="col-span-4 p-1 rounded-2xl border-2 border-dashed border-[#E2C2C8] flex">
+            <div class="w-full bg-[#9D8171] rounded-xl flex flex-col items-center justify-center text-white py-6 px-2 text-center">
+              <span class="font-cute text-3xl font-bold">รูป</span>
+            </div>
+          </div>
+
+          <div class="col-span-8 border-2 border-[#6E5346] rounded-2xl bg-white overflow-hidden flex flex-col">
+            <div class="bg-[#6E5346] text-white text-center py-1.5 px-2 text-xs font-semibold">
+              Promotion โปรโมชั่น
+            </div>
+            <div id="promo-accordion-container" class="p-2 space-y-1.5 flex-1 flex flex-col justify-center"></div>
+          </div>
+        </div>
+
+        <!-- แถวล่าง: กล่องคำถามที่พบบ่อยซ้าย + รูปขวา -->
+        <div class="grid grid-cols-12 gap-2.5 items-stretch">
+          <div class="col-span-8 border-2 border-[#6E5346] rounded-2xl bg-white overflow-hidden flex flex-col">
+            <div class="bg-[#6E5346] text-white text-center py-1.5 px-2 text-xs font-semibold">
+              คำถามที่พบบ่อย
+            </div>
+            <div id="faq-accordion-container" class="p-2 space-y-1.5 flex-1 flex flex-col justify-center"></div>
+          </div>
+
+          <div class="col-span-4 p-1 rounded-2xl border-2 border-dashed border-[#E2C2C8] flex">
+            <div class="w-full bg-[#9D8171] rounded-xl flex flex-col items-center justify-center text-white py-6 px-2 text-center">
+              <span class="font-cute text-3xl font-bold">รูป</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- แถบข้อความสอบถามด้านล่าง -->
+        <div onclick="showToast('ทักแชทสอบถามแอดมินได้เลยนะคะ ♡')"
+             class="cursor-pointer bg-white border-2 border-[#F5D0DC] rounded-full px-4 py-2 flex items-center justify-between shadow-sm">
+          <span class="text-[11px] text-[#9D8171] mx-auto pl-6">มีข้อสงสัยตรงไหนสอบถามทักได้เลยค่ะ</span>
+          <div class="flex items-center gap-2 text-[#E3839B] text-xs font-bold shrink-0">
+            <span>+</span>
+            <span>📷</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 2] ส่วน Welcome / Profile โพราลอยด์สีชมพู -->
+      <section class="bg-white rounded-[26px] p-4 border-2 border-[#FCE4EC] soft-card-shadow relative overflow-hidden">
+        <div class="grid grid-cols-12 gap-3 items-center">
+          <div class="col-span-5 relative flex justify-center">
+            <div class="w-9 h-3 bg-[#F9CED8]/80 -rotate-45 absolute -top-1 -left-1 z-10 rounded-sm"></div>
+            <div class="w-9 h-3 bg-[#F9CED8]/80 -rotate-45 absolute -bottom-1 -right-1 z-10 rounded-sm"></div>
+
+            <div class="bg-white p-2 pb-3 rounded-xl shadow-md border border-[#F5E1E6] -rotate-2 w-full">
+              <div class="bg-[#FFB7C5] h-28 rounded-lg flex items-center justify-center text-white font-eng font-semibold text-lg">
+                Profile
+              </div>
+              <p class="text-[9px] font-eng font-bold text-[#E899AC] text-center mt-1.5 tracking-widest">
+                PASTEL PEANUT
+              </p>
+            </div>
+          </div>
+
+          <div class="col-span-7 text-center space-y-1">
+            <h3 class="font-eng font-semibold text-[#F29CB1] text-base">
+              ｡ ♡ hi hi Welcome~
+            </h3>
+            <p class="text-[10px] text-[#8C7061] leading-relaxed">
+              ☁️ hi hi welcome credit moririn ..<br/>
+              <span class="font-semibold text-[#6E5346]">+ 1 safe credit and friendly seller</span>
+            </p>
+            <p class="text-[9px] text-[#A99282] leading-normal">
+              thank you for your . trust. pls give me<br/>
+              a your plus one Lovely customer 🐾 ₊˚⊹♡<br/>
+              thanks for using our . services ♡
+            </p>
+            <div class="flex justify-center gap-2 pt-1 text-xs">
+              <span>🦢</span><span>🐇</span><span>🐩</span><span>🩰</span><span>🍵</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 2] การ์ดลิงก์แบบแนวนอน 4 การ์ด (Portfolio, Skeb, pixiv, FANBOX) -->
+      <section class="space-y-2.5">
+        <div onclick="openInfoModal('Portfolio', 'รวมผลงานและเครดิตการซื้อขาย-เช่ารหัสมากกว่า 1,500+ รายการ')"
+             class="cursor-pointer bg-white rounded-2xl border border-[#F2E6DE] shadow-sm overflow-hidden grid grid-cols-12 h-16">
+          <div class="col-span-6 px-3.5 flex items-center gap-2.5 bg-white scallop-divider">
+            <span class="text-[#D39E96] text-base">🏠</span>
+            <div>
+              <div class="font-eng font-semibold text-xs text-[#D39E96]">Portfolio</div>
+              <div class="text-[9px] text-[#B59B8B]">ポートフォリオ・お仕事情報</div>
+            </div>
+          </div>
+          <div class="col-span-6 bg-[#34343A] p-2.5 flex items-center justify-center">
+            <div class="bg-white rounded-md w-full h-full flex items-center justify-center text-[#6E5346] font-cute font-bold text-sm">รูป</div>
+          </div>
+        </div>
+
+        <div onclick="openInfoModal('Skeb', 'รับจัดหาไอดีตามงบประมาณ และดูแลไอดีครบวงจร')"
+             class="cursor-pointer bg-white rounded-2xl border border-[#F2E6DE] shadow-sm overflow-hidden grid grid-cols-12 h-16">
+          <div class="col-span-6 px-3.5 flex items-center gap-2.5 bg-white scallop-divider">
+            <span class="text-[#D39E96] text-base">✏️</span>
+            <div>
+              <div class="font-eng font-semibold text-xs text-[#D39E96]">Skeb</div>
+              <div class="text-[9px] text-[#B59B8B]">コミッションはこちら</div>
+            </div>
+          </div>
+          <div class="col-span-6 bg-[#FFB7C5] p-2.5 flex items-center justify-center">
+            <div class="bg-white rounded-md w-full h-full flex items-center justify-center text-[#6E5346] font-cute font-bold text-sm">รูป</div>
+          </div>
+        </div>
+
+        <div onclick="openInfoModal('pixiv', 'คลังภาพรีวิวลูกค้าจริงและตัวอย่างสกินแรร์ภายในร้าน')"
+             class="cursor-pointer bg-white rounded-2xl border border-[#F2E6DE] shadow-sm overflow-hidden grid grid-cols-12 h-16">
+          <div class="col-span-6 px-3.5 flex items-center gap-2.5 bg-white scallop-divider">
+            <span class="text-[#D39E96] text-base">🖼️</span>
+            <div>
+              <div class="font-eng font-semibold text-xs text-[#D39E96]">pixiv</div>
+              <div class="text-[9px] text-[#B59B8B]">雑多イラスト保管庫</div>
+            </div>
+          </div>
+          <div class="col-span-6 bg-[#E6CFC2] p-2.5 flex items-center justify-center">
+            <div class="bg-white rounded-md w-full h-full flex items-center justify-center text-[#6E5346] font-cute font-bold text-sm">รูป</div>
+          </div>
+        </div>
+
+        <div onclick="openInfoModal('FANBOX', 'สิทธิพิเศษสำหรับลูกค้าประจำ สะสมยอดแลกส่วนลดได้ทันที')"
+             class="cursor-pointer bg-white rounded-2xl border border-[#F2E6DE] shadow-sm overflow-hidden grid grid-cols-12 h-16">
+          <div class="col-span-6 px-3.5 flex items-center gap-2.5 bg-white scallop-divider">
+            <span class="text-[#D39E96] text-base">🎁</span>
+            <div>
+              <div class="font-eng font-semibold text-xs text-[#D39E96]">FANBOX</div>
+              <div class="text-[9px] text-[#B59B8B]">タイムラプス動画</div>
+            </div>
+          </div>
+          <div class="col-span-6 bg-[#A68976] p-2.5 flex items-center justify-center">
+            <div class="bg-white rounded-md w-full h-full flex items-center justify-center text-[#6E5346] font-cute font-bold text-sm">รูป</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 2] กล่องประกาศเช็คชื่อก่อนโอน + แถบ welcome โปรดอ่านก่อนชำระ + รูปภาพปราสาท -->
+      <section class="space-y-2.5 pt-1">
+        <div class="bg-white rounded-2xl p-2.5 border-2 border-[#D4EFEA] flex items-center justify-between gap-2 shadow-sm">
+          <div class="flex items-center gap-2.5 pl-1">
+            <div class="w-8 h-8 rounded-full bg-[#DCF5F0] text-[#3B9B88] flex items-center justify-center font-bold text-sm shrink-0">
+              !
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#6E5346]">♡ เช็คชื่อก่อนกดโอนทุกรอบนะคั้บ !</div>
+              <div class="text-[10px] text-[#A68A7B]">โอนผิดไม่รับผิดชอบทุกกรณีค่า</div>
+            </div>
+          </div>
+          <div onclick="openInfoModal('เลขบัญชีร้าน moririn', 'โปรดตรวจสอบชื่อบัญชี Moririn Official ก่อนกดยืนยันโอนเงินทุกครั้งค่ะ')"
+               class="cursor-pointer bg-[#8F705D] text-white font-cute font-bold text-base px-5 py-2 rounded-xl shrink-0">
+            รูป
+          </div>
+        </div>
+
+        <div class="bg-[#FDF0F4] border border-[#F5CEDB] rounded-2xl overflow-hidden">
+          <button type="button" onclick="toggleElement('welcome-read-more')" class="w-full px-4 py-2.5 flex items-center justify-between text-xs font-bold text-[#9C6B78]">
+            <span class="mx-auto pl-4">welcome โปรดอ่านก่อนชำระ ୨୧</span>
+            <span class="text-[10px]">▼</span>
+          </button>
+          <div id="welcome-read-more" class="hidden px-4 pb-3 pt-1 text-[11px] text-[#7D5B65] border-t border-[#F5CEDB]/60 space-y-1 bg-white/70">
+            <p>• กรุณาแคปสลิปหลังโอนเงินทุกครั้ง และส่งในแชทร้านทันที</p>
+            <p>• ห้ามโอนเข้าบัญชีเก่าโดยไม่ถามคิวว่างก่อนเด็ดขาด</p>
+            <p>• ซื้อแล้วไม่รับคืนเงิน ยกเว้นปัญหาที่เกิดจากทางร้านโดยตรง</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-2.5 rounded-[26px] border-2 border-[#F8D5E0] shadow-sm">
+          <div class="h-40 rounded-[18px] overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80"
+                 onerror="this.src='https://placehold.co/700x320/8A7968/FFFFFF?text=Castle+Image'"
+                 alt="Castle"
+                 class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================================================
+         หน้า 2: หน้าขายรหัส (SHOP) — อ้างอิงภาพที่ 3 และ 4
+         ========================================================= -->
+    <main id="page-shop" class="page-section px-3 space-y-4">
+
+      <!-- [ภาพที่ 3] แบนเนอร์ขายรหัส ("ใส่รูป") -->
+      <section class="bg-[#B89F8D] rounded-[22px] h-44 flex flex-col items-center justify-center text-white shadow-sm mt-1">
+        <span class="font-cute text-4xl font-bold tracking-wide">ใส่รูป</span>
+        <span class="text-[11px] text-white/80 mt-1">แบนเนอร์ขายรหัส</span>
+      </section>
+
+      <!-- [ภาพที่ 3] หัวข้อขายรหัส + แถบประกาศ + SELL (12) + แท็บหมวดหมู่ + การ์ด 2 คอลัมน์ -->
+      <section class="space-y-2.5">
+        <div class="flex items-center justify-between gap-1.5 flex-wrap">
+          <div class="flex items-center gap-1.5 font-bold text-sm text-[#6E5346]">
+            <span>🏪</span>
+            <span>ขายรหัส</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-full bg-white border border-[#F2D5DF] text-[10px] text-[#8C7061]">
+              📢 หลังดูรหัสในร้านทักแชทก่อนน้า
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-white border border-[#F2D5DF] text-[10px] font-eng font-bold text-[#6E5346]">
+              SELL (12)
+            </span>
+          </div>
+        </div>
+
+        <div id="shop-category-tabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5"></div>
+
+        <div id="shop-products-grid" class="grid grid-cols-2 gap-3 pt-1"></div>
+      </section>
+
+      <!-- [ภาพที่ 3] ส่วนภาพประกอบ กฎผ่อนรายละเอียดผ่อน -->
+      <section class="rounded-[26px] bg-gradient-to-b from-[#FCEBF2] via-[#F2F7FF] to-[#FCEBF2] p-4 border-2 border-[#F8D7E4] shadow-sm space-y-3">
+        <div class="bg-white/80 rounded-2xl p-4 border border-white text-center">
+          <div class="font-cute text-4xl font-bold text-[#8F705D] my-1">&lt; รูป &gt;</div>
+          <div class="inline-block bg-white px-4 py-1 rounded-full border border-[#F3D1DC] text-sm font-cute font-bold text-[#7A5B4B]">
+            กฎผ่อนรายละเอียดผ่อน
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <div class="col-span-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#F9D5E5] border-4 border-white shadow-md flex items-center justify-center text-2xl">
+              🎀
+            </div>
+          </div>
+          <div class="col-span-8">
+            <div class="text-[9px] font-eng font-bold text-[#F2A7C0] mb-0.5">INTRODUCTION!</div>
+            <div onclick="openInfoModal('รายละเอียดการผ่อน (1)', 'วางดาวน์เริ่มต้น 30% ผ่อนชำระได้นาน 1-3 เดือน ผ่อนครบรับรหัสพร้อมเปลี่ยนข้อมูลทันที')"
+                 class="cursor-pointer bg-[#E7F2FE] border-2 border-[#FAD9E6] rounded-xl py-4 px-3 text-center font-cute font-bold text-[#7A5B4B] text-base">
+              รายละเอียด
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <div class="col-span-8">
+            <div class="text-[9px] font-eng font-bold text-[#F2A7C0] mb-0.5">FANDOMS! ^^</div>
+            <div onclick="openInfoModal('รายละเอียดการผ่อน (2)', 'หากขาดส่งเกินกำหนดโดยไม่แจ้งล่วงหน้า ทางร้านขอสงวนสิทธิ์ยึดยอดมัดจำตามกฎร้าน')"
+                 class="cursor-pointer bg-[#E7F2FE] border-2 border-[#FAD9E6] rounded-xl py-4 px-3 text-center font-cute font-bold text-[#7A5B4B] text-base">
+              รายละเอียด
+            </div>
+          </div>
+          <div class="col-span-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#DCEEFF] border-4 border-white shadow-md flex items-center justify-center text-2xl">
+              🐰
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 4] การ์ดคู่รายละเอียด 1 & 2 + Nessa! Bio + กระดาษโน้ต "รูป" -->
+      <section class="space-y-3.5">
+        <div class="bg-[#FDF4F7] rounded-[24px] p-3 border border-[#F7D8E2] grid grid-cols-2 gap-3">
+          <div onclick="openInfoModal('รายละเอียด 1', 'ตรวจสอบรหัส S01-S12 และทักแชทสอบถามสถานะว่างกับแอดมินก่อนโอนเงิน')"
+               class="cursor-pointer bg-white rounded-2xl p-2.5 border border-[#F3DCE4] flex flex-col items-center">
+            <span class="text-[#F7B6C8] text-xs mb-1">🩷</span>
+            <div class="w-full h-32 bg-[#9D8171] rounded-xl flex items-center justify-center text-white font-semibold text-xs">
+              รายละเอียด 1
+            </div>
+            <span class="text-xs font-bold text-[#BC8A98] mt-2">รายละเอียดเช่า</span>
+          </div>
+
+          <div onclick="openInfoModal('รายละเอียด 2', 'รับประกันรหัสสะอาด ปลอดภัย พร้อมดูแลเปลี่ยนข้อมูลให้ครบทุกขั้นตอน')"
+               class="cursor-pointer bg-white rounded-2xl p-2.5 border border-[#F3DCE4] flex flex-col items-center">
+            <span class="text-[#F7B6C8] text-xs mb-1">🩷</span>
+            <div class="w-full h-32 bg-[#9D8171] rounded-xl flex items-center justify-center text-white font-semibold text-xs">
+              รายละเอียด 2
+            </div>
+            <span class="text-xs font-bold text-[#BC8A98] mt-2">รายละเอียดเช่า</span>
+          </div>
+        </div>
+
+        <!-- Nessa Profile Block -->
+        <div class="bg-white rounded-[22px] p-3.5 border border-[#ECD8E2] space-y-2.5 text-[11px]">
+          <div class="bg-[#F5E9F0] rounded-lg px-2.5 py-1 flex items-center justify-between text-[10px] text-[#B896A8] font-eng">
+            <span>Finally introducing . . . Nessa !!</span>
+            <span>carrd by @bomubff on twt</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-2.5 items-center">
+            <div class="col-span-4 text-center space-y-0.5">
+              <div class="font-eng font-bold text-xl text-[#D8A7C0]">Nessa!</div>
+              <div class="text-[10px] text-[#8F7A85] leading-tight">
+                she/her <i>minor!</i><br/>
+                <b>cishet</b> INTP<br/>
+                chn/filo 0125<br/>
+                aquarius
+              </div>
+              <div class="flex justify-center gap-1 pt-1 text-xs">
+                <span>🧷</span><span>💌</span><span>🧼</span>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="aspect-square rounded-xl overflow-hidden border border-[#E5D0DC]">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+                     onerror="this.src='https://placehold.co/200x200/E5D0DC/6E5346?text=Nessa'"
+                     alt="Nessa"
+                     class="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            <div class="col-span-4 space-y-1.5 text-[9px]">
+              <div class="border border-[#E5D0DC] rounded-md overflow-hidden">
+                <div class="bg-[#F9EDF3] px-2 py-0.5 font-bold text-[#B88BA0]">YASSS</div>
+                <div class="p-1.5 text-[#8F7A85] leading-tight">roller coasters, bang chan's dimples</div>
+              </div>
+              <div class="border border-[#E5D0DC] rounded-md overflow-hidden">
+                <div class="bg-[#F9EDF3] px-2 py-0.5 font-bold text-[#B88BA0]">BOOOO</div>
+                <div class="p-1.5 text-[#8F7A85] leading-tight">messy things, cinnamon</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-[9px]">
+            <div>
+              <div class="bg-[#F2E6EE] rounded-md py-1 px-2 font-bold text-center text-[#7E6B75] mb-1">✔ B4 U Follow</div>
+              <div class="border border-[#E5D0DC] rounded-md p-1.5 text-[#8F7A85]">i make jokes, fast reply, safe trade 100%</div>
+            </div>
+            <div>
+              <div class="bg-[#F2E6EE] rounded-md py-1 px-2 font-bold text-center text-[#7E6B75] mb-1">✖ Don't Follow If</div>
+              <div class="border border-[#E5D0DC] rounded-md p-1.5 text-[#8F7A85]">scammers, fake slips, rude customers</div>
+            </div>
+          </div>
+
+          <div class="bg-[#FCF0F5] border border-[#F5DCE7] rounded-md p-2 text-[9px] text-[#B88BA0] leading-snug">
+            <b>Now Playing . . . Gone Days by Stray Kids</b> ▷ 매일 똑같은 말 지겹지도 않아 알고 보니 말한 기억도 안 나는 Gone days
+          </div>
+
+          <div class="border border-[#E5D0DC] rounded-md p-2 text-[9px] text-[#8F7A85] leading-snug">
+            <b>Ults</b> SKZ bang chan TWICE sana chaeyoung ITZY chaeryeong lia BP jisoo <b>Animanga</b> jjk fruits basket haikyuu
+          </div>
+        </div>
+
+        <!-- Lined Notebook Paper "รูป" -->
+        <div class="bg-[#FCEBF0] p-2.5 rounded-[24px] border-2 border-[#F7CEDB]">
+          <div class="notebook-paper rounded-2xl h-44 border border-[#F3D5E0] flex flex-col items-center justify-center relative">
+            <div class="text-[10px] text-[#E6B8C7] tracking-[0.3em] absolute top-2">♡♡♡♡♡♡♡♡♡♡♡♡</div>
+            <span class="font-cute text-5xl font-bold text-[#8F705D]">รูป</span>
+            <div class="text-[10px] text-[#E6B8C7] tracking-[0.3em] absolute bottom-2">♡♡♡♡♡♡♡♡♡♡♡♡</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================================================
+         หน้า 3: หน้าเช่ารหัส (RENTAL) — อ้างอิงภาพที่ 5 และ 6
+         ========================================================= -->
+    <main id="page-rental" class="page-section px-3 space-y-4">
+
+      <!-- [ภาพที่ 5] แบนเนอร์เช่ารหัส ("ใส่รูป") -->
+      <section class="bg-[#B89F8D] rounded-[22px] h-44 flex flex-col items-center justify-center text-white shadow-sm mt-1">
+        <span class="font-cute text-4xl font-bold tracking-wide">ใส่รูป</span>
+        <span class="text-[11px] text-white/80 mt-1">แบนเนอร์เช่ารหัส</span>
+      </section>
+
+      <!-- [ภาพที่ 5] จำนวนรหัสว่าง (18) / ไม่ว่าง (5) + หมวดหมู่ + การ์ด 2 คอลัมน์ -->
+      <section class="space-y-2.5">
+        <div class="flex items-center justify-between gap-1 flex-wrap">
+          <div class="flex items-center gap-1.5 font-bold text-sm text-[#6E5346]">
+            <span>🔑</span>
+            <span>เช่ารหัส</span>
+          </div>
+
+          <div class="flex items-center gap-1 flex-wrap">
+            <span class="px-2 py-1 rounded-full bg-white border border-[#F2D5DF] text-[9px] text-[#8C7061]">
+              📢 เช่าเยอะมีแถมฟรีน้า
+            </span>
+            <button type="button" onclick="filterRentalByStatus('available')" class="px-2.5 py-1 rounded-full bg-[#A6827C] text-white text-[10px] font-medium flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#4AD67D]"></span>
+              <span>ว่าง ( 18 )</span>
+            </button>
+            <button type="button" onclick="filterRentalByStatus('busy')" class="px-2.5 py-1 rounded-full bg-[#7A5C55] text-white text-[10px] font-medium flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-[#FF6B6B]"></span>
+              <span>ไม่ว่าง ( 5 )</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="rental-category-tabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-0.5"></div>
+
+        <div id="rental-products-grid" class="grid grid-cols-2 gap-3 pt-1"></div>
+      </section>
+
+      <!-- [ภาพที่ 5] ส่วนรูปภาพกฎการเช่าและรายละเอียด -->
+      <section class="rounded-[26px] bg-gradient-to-b from-[#FCEBF2] via-[#F2F7FF] to-[#FCEBF2] p-4 border-2 border-[#F8D7E4] shadow-sm space-y-3">
+        <div class="bg-white/80 rounded-2xl p-4 border border-white text-center">
+          <div class="font-cute text-4xl font-bold text-[#8F705D] my-1">&lt; รูป &gt;</div>
+          <div class="inline-block bg-white px-4 py-1 rounded-full border border-[#F3D1DC] text-sm font-cute font-bold text-[#7A5B4B]">
+            กฎผ่อนรายละเอียดผ่อน
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <div class="col-span-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#F9D5E5] border-4 border-white shadow-md flex items-center justify-center text-2xl">
+              🌸
+            </div>
+          </div>
+          <div class="col-span-8">
+            <div class="text-[9px] font-eng font-bold text-[#F2A7C0] mb-0.5">INTRODUCTION!</div>
+            <div onclick="openInfoModal('กฎการเช่ารหัส (1)', 'ห้ามใช้โปรแกรมช่วยเล่น ห้ามด่าผู้เล่นอื่นจนถูกแบน และห้ามใช้เพชร/ไอเทมในรหัสโดยพลการ')"
+                 class="cursor-pointer bg-[#E7F2FE] border-2 border-[#FAD9E6] rounded-xl py-4 px-3 text-center font-cute font-bold text-[#7A5B4B] text-base">
+              รายละเอียด
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <div class="col-span-8">
+            <div class="text-[9px] font-eng font-bold text-[#F2A7C0] mb-0.5">FANDOMS! ^^</div>
+            <div onclick="openInfoModal('กฎการเช่ารหัส (2)', 'เช่าครบ 5 ชั่วโมง แถมฟรี 1 ชั่วโมงทันที สามารถทักแชทจองคิวล่วงหน้าได้ตลอด 24 ชม.')"
+                 class="cursor-pointer bg-[#E7F2FE] border-2 border-[#FAD9E6] rounded-xl py-4 px-3 text-center font-cute font-bold text-[#7A5B4B] text-base">
+              รายละเอียด
+            </div>
+          </div>
+          <div class="col-span-4 flex justify-center">
+            <div class="w-20 h-20 rounded-full bg-[#DCEEFF] border-4 border-white shadow-md flex items-center justify-center text-2xl">
+              ☁️
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 6] การ์ดคู่รายละเอียดเช่า 1 & 2 + Nessa! + กระดาษโน้ต "รูป" -->
+      <section class="space-y-3.5">
+        <div class="bg-[#FDF4F7] rounded-[24px] p-3 border border-[#F7D8E2] grid grid-cols-2 gap-3">
+          <div onclick="openInfoModal('รายละเอียดเช่า 1', '1 ชม. 65-70฿ | 3 ชม. 180฿ | 5 ชม. แถม 1 ชม. 300฿ | เหมาวัน 24 ชม. 450฿')"
+               class="cursor-pointer bg-white rounded-2xl p-2.5 border border-[#F3DCE4] flex flex-col items-center">
+            <span class="text-[#F7B6C8] text-xs mb-1">🩷</span>
+            <div class="w-full h-32 bg-[#9D8171] rounded-xl flex items-center justify-center text-white font-semibold text-xs">
+              รายละเอียด 1
+            </div>
+            <span class="text-xs font-bold text-[#BC8A98] mt-2">รายละเอียดเช่า</span>
+          </div>
+
+          <div onclick="openInfoModal('รายละเอียดเช่า 2', 'ไม่ต้องวางมัดจำ เข้าเล่นได้ทั้งระบบ iOS และ Android ออกรหัสตรงเวลาทุกครั้ง')"
+               class="cursor-pointer bg-white rounded-2xl p-2.5 border border-[#F3DCE4] flex flex-col items-center">
+            <span class="text-[#F7B6C8] text-xs mb-1">🩷</span>
+            <div class="w-full h-32 bg-[#9D8171] rounded-xl flex items-center justify-center text-white font-semibold text-xs">
+              รายละเอียด 2
+            </div>
+            <span class="text-xs font-bold text-[#BC8A98] mt-2">รายละเอียดเช่า</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-[22px] p-3.5 border border-[#ECD8E2] space-y-2.5 text-[11px]">
+          <div class="bg-[#F5E9F0] rounded-lg px-2.5 py-1 flex items-center justify-between text-[10px] text-[#B896A8] font-eng">
+            <span>Finally introducing . . . Nessa !!</span>
+            <span>carrd by @bomubff on twt</span>
+          </div>
+
+          <div class="grid grid-cols-12 gap-2.5 items-center">
+            <div class="col-span-4 text-center space-y-0.5">
+              <div class="font-eng font-bold text-xl text-[#D8A7C0]">Nessa!</div>
+              <div class="text-[10px] text-[#8F7A85] leading-tight">
+                she/her <i>minor!</i><br/>
+                <b>cishet</b> INTP<br/>
+                chn/filo 0125<br/>
+                aquarius
+              </div>
+              <div class="flex justify-center gap-1 pt-1 text-xs">
+                <span>🧷</span><span>💌</span><span>🧼</span>
+              </div>
+            </div>
+
+            <div class="col-span-4">
+              <div class="aspect-square rounded-xl overflow-hidden border border-[#E5D0DC]">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80"
+                     onerror="this.src='https://placehold.co/200x200/E5D0DC/6E5346?text=Nessa'"
+                     alt="Nessa"
+                     class="w-full h-full object-cover" />
+              </div>
+            </div>
+
+            <div class="col-span-4 space-y-1.5 text-[9px]">
+              <div class="border border-[#E5D0DC] rounded-md overflow-hidden">
+                <div class="bg-[#F9EDF3] px-2 py-0.5 font-bold text-[#B88BA0]">YASSS</div>
+                <div class="p-1.5 text-[#8F7A85] leading-tight">roller coasters, bang chan's dimples</div>
+              </div>
+              <div class="border border-[#E5D0DC] rounded-md overflow-hidden">
+                <div class="bg-[#F9EDF3] px-2 py-0.5 font-bold text-[#B88BA0]">BOOOO</div>
+                <div class="p-1.5 text-[#8F7A85] leading-tight">messy things, cinnamon</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-[9px]">
+            <div>
+              <div class="bg-[#F2E6EE] rounded-md py-1 px-2 font-bold text-center text-[#7E6B75] mb-1">✔ B4 U Follow</div>
+              <div class="border border-[#E5D0DC] rounded-md p-1.5 text-[#8F7A85]">check queue before transfer, keep time strictly</div>
+            </div>
+            <div>
+              <div class="bg-[#F2E6EE] rounded-md py-1 px-2 font-bold text-center text-[#7E6B75] mb-1">✖ Don't Follow If</div>
+              <div class="border border-[#E5D0DC] rounded-md p-1.5 text-[#8F7A85]">toxic players, afk in ranked matches</div>
+            </div>
+          </div>
+
+          <div class="bg-[#FCF0F5] border border-[#F5DCE7] rounded-md p-2 text-[9px] text-[#B88BA0] leading-snug">
+            <b>Now Playing . . . Gone Days by Stray Kids</b> ▷ 매일 똑같은 말 지겹지도 않아 알고 보니 말한 기억도 안 나는 Gone days
+          </div>
+
+          <div class="border border-[#E5D0DC] rounded-md p-2 text-[9px] text-[#8F7A85] leading-snug">
+            <b>Ults</b> SKZ bang chan TWICE sana chaeyoung ITZY chaeryeong lia BP jisoo <b>Animanga</b> jjk fruits basket haikyuu
+          </div>
+        </div>
+
+        <div class="bg-[#FCEBF0] p-2.5 rounded-[24px] border-2 border-[#F7CEDB]">
+          <div class="notebook-paper rounded-2xl h-44 border border-[#F3D5E0] flex flex-col items-center justify-center relative">
+            <div class="text-[10px] text-[#E6B8C7] tracking-[0.3em] absolute top-2">♡♡♡♡♡♡♡♡♡♡♡♡</div>
+            <span class="font-cute text-5xl font-bold text-[#8F705D]">รูป</span>
+            <div class="text-[10px] text-[#E6B8C7] tracking-[0.3em] absolute bottom-2">♡♡♡♡♡♡♡♡♡♡♡♡</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================================================
+         หน้า 4: หน้าบริการ (SERVICES) — อ้างอิงภาพที่ 7 และ 8
+         ========================================================= -->
+    <main id="page-services" class="page-section px-3 space-y-4">
+
+      <!-- [ภาพที่ 7] แบนเนอร์บริการ Circus + รูปโปรไฟล์วงกลมซ้อน + 3 ปุ่มสีฟ้า -->
+      <section class="bg-white rounded-[24px] p-2.5 border-2 border-[#C8E4FF] shadow-sm mt-1">
+        <div class="relative h-36 rounded-2xl overflow-hidden bg-gradient-to-r from-[#6EC3F4] via-[#8ED2F8] to-[#6EC3F4] border border-[#B2DCFA]">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+               onerror="this.src='https://placehold.co/600x260/7BC6F6/FFFFFF?text=Circus+Banner'"
+               alt="Circus Banner"
+               class="w-full h-full object-cover opacity-85" />
+          <div class="absolute top-3 right-3 bg-[#E0534C] text-white font-eng font-bold text-xs px-3 py-1 rounded-full border-2 border-white shadow">
+            🎪 circus
+          </div>
+          <div class="absolute top-3 left-5 text-white text-sm">⭐ ✨ ⭐</div>
+        </div>
+
+        <div class="flex items-end justify-between gap-2 -mt-9 px-2 relative z-10">
+          <div class="w-20 h-20 rounded-full p-1 bg-white shadow-md border-2 border-[#BCE0FD] shrink-0">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=240&q=80"
+                 onerror="this.src='https://placehold.co/150x150/BCE0FD/6E5346?text=Profile'"
+                 alt="Service Profile"
+                 class="w-full h-full object-cover rounded-full" />
+          </div>
+
+          <div class="flex-1 space-y-1.5 pb-1">
+            <div class="h-3 bg-[#C8E2FA] rounded-full w-full"></div>
+            <div class="grid grid-cols-3 gap-1">
+              <span class="bg-[#4D88C4] text-white font-eng font-semibold text-[9px] py-1 px-1 rounded-full text-center truncate">
+                FREE RENAME
+              </span>
+              <span class="bg-[#4D88C4] text-white font-eng font-semibold text-[9px] py-1 px-1 rounded-full text-center truncate">
+                FREE RECOLOR
+              </span>
+              <span class="bg-[#4D88C4] text-white font-eng font-semibold text-[9px] py-1 px-1 rounded-full text-center truncate">
+                IDR 25.000
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 7] ♡♡♡ FOOD&DESSERT MENU ♡♡♡ การ์ดบริการ 2x2 -->
+      <section class="pink-grid-bg rounded-[26px] p-3.5 border-2 border-[#F8C8DC] shadow-sm space-y-3">
+        <div class="flex justify-center">
+          <div class="bg-[#F6A6C1] text-white font-eng font-bold text-xs tracking-wider px-5 py-1 rounded-full">
+            ♡♡♡ FOOD&amp;DESSERT MENU ♡♡♡
+          </div>
+        </div>
+        <div id="services-cafe-grid" class="grid grid-cols-2 gap-3"></div>
+      </section>
+
+      <!-- [ภาพที่ 7] SHARING : ☆ Yes ☆ No ☆ Selective -->
+      <section class="bg-white rounded-[24px] p-3.5 border-2 border-[#F5D0DC] space-y-3">
+        <div class="text-center font-eng font-bold text-sm text-[#A6535A]">
+          SHARING : ☆ Yes &nbsp; ☆ No &nbsp; ☆ Selective
+        </div>
+
+        <div class="border-2 border-[#F3B8C8] rounded-xl p-2.5 grid grid-cols-12 gap-2 items-center text-[9px] text-[#9E5058]">
+          <div class="col-span-7 space-y-1">
+            <div class="flex items-center gap-1">
+              <b>Age</b> <span class="bg-[#FADCE4] h-3 w-8 rounded inline-block"></span>
+              <b>Height</b> <span class="bg-[#FADCE4] h-3 w-8 rounded inline-block"></span>
+            </div>
+            <div class="flex items-center gap-1">
+              <b>Occupation</b> <span class="bg-[#FADCE4] h-3 flex-1 rounded inline-block"></span>
+            </div>
+            <div class="grid grid-cols-2 gap-1 pt-0.5 leading-tight">
+              <div>
+                Big spoon / Little Spoon<br/>
+                Confident / Shy<br/>
+                PDA / Reserved<br/>
+                I'm good at <span class="bg-[#FADCE4] px-1 rounded">gaming</span>
+              </div>
+              <div>
+                Housework ▢<br/>
+                Cooking ▢<br/>
+                Protective ▢
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 pt-1 text-center font-bold">
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Trust</div>
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Clingy</div>
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Jealousy</div>
+            </div>
+          </div>
+          <div class="col-span-5">
+            <div onclick="openInfoModal('บริการดูแลไอดี A', 'รับปั๊มแรงค์ เก็บกิจกรรม และดูแลไอดีรายสัปดาห์')"
+                 class="cursor-pointer bg-[#FFB7C5] h-24 rounded-lg flex items-center justify-center text-white font-cute font-bold text-xs">
+              คลิกดูเรท
+            </div>
+          </div>
+        </div>
+
+        <div class="border-2 border-[#F3B8C8] rounded-xl p-2.5 grid grid-cols-12 gap-2 items-center text-[9px] text-[#9E5058]">
+          <div class="col-span-5">
+            <div onclick="openInfoModal('บริการออกแบบป้ายร้าน B', 'รับทำป้ายร้าน ตกแต่งเว็บ Carrd และกราฟิกพาสเทล')"
+                 class="cursor-pointer bg-[#FFB7C5] h-24 rounded-lg flex items-center justify-center text-white font-cute font-bold text-xs">
+              คลิกดูเรท
+            </div>
+          </div>
+          <div class="col-span-7 space-y-1">
+            <div class="flex items-center gap-1">
+              <b>Age</b> <span class="bg-[#FADCE4] h-3 w-8 rounded inline-block"></span>
+              <b>Height</b> <span class="bg-[#FADCE4] h-3 w-8 rounded inline-block"></span>
+            </div>
+            <div class="flex items-center gap-1">
+              <b>Occupation</b> <span class="bg-[#FADCE4] h-3 flex-1 rounded inline-block"></span>
+            </div>
+            <div class="grid grid-cols-2 gap-1 pt-0.5 leading-tight">
+              <div>
+                Big spoon / Little Spoon<br/>
+                Confident / Shy<br/>
+                PDA / Reserved<br/>
+                I'm good at <span class="bg-[#FADCE4] px-1 rounded">design</span>
+              </div>
+              <div>
+                Housework ▢<br/>
+                Cooking ▢<br/>
+                Protective ▢
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-1 pt-1 text-center font-bold">
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Trust</div>
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Clingy</div>
+              <div><div class="bg-[#FADCE4] h-2 rounded mb-0.5"></div>Jealousy</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 8] การ์ดตัวละครพาสเทล 3 คอลัมน์ (Hazy Sleep / Starry Sleep 39,000) -->
+      <section class="bg-[#FFF9FB] rounded-[24px] p-3 border-2 border-[#F8DCE6]">
+        <div class="grid grid-cols-3 gap-2">
+          <div onclick="openServiceDetail(4)" class="cursor-pointer bg-white rounded-2xl p-2 border border-[#F5DCE4] text-center flex flex-col items-center">
+            <span class="text-xs">🎀</span>
+            <span class="text-[9px] font-eng text-[#A88F7D] mt-0.5">Hazy Sleep</span>
+            <div class="w-14 h-14 my-2 rounded-full bg-[#FCEBF2] flex items-center justify-center text-2xl">🐱</div>
+            <div class="w-full bg-[#FCE8EF] rounded-full py-0.5 px-2 text-[9px] font-eng font-bold text-[#9C6549]">🩷 39,000</div>
+          </div>
+
+          <div onclick="openServiceDetail(5)" class="cursor-pointer bg-white rounded-2xl p-2 border border-[#F5DCE4] text-center flex flex-col items-center">
+            <span class="text-xs">🐰</span>
+            <span class="text-[9px] font-eng text-[#A88F7D] mt-0.5">Hazy Sleep</span>
+            <div class="w-14 h-14 my-2 rounded-full bg-[#FCEBF2] flex items-center justify-center text-2xl">🐇</div>
+            <div class="w-full bg-[#FCE8EF] rounded-full py-0.5 px-2 text-[9px] font-eng font-bold text-[#9C6549]">🩷 39,000</div>
+          </div>
+
+          <div onclick="openServiceDetail(6)" class="cursor-pointer bg-white rounded-2xl p-2 border border-[#F5DCE4] text-center flex flex-col items-center">
+            <span class="text-xs">🍮</span>
+            <span class="text-[9px] font-eng text-[#A88F7D] mt-0.5">Starry Sleep</span>
+            <div class="w-14 h-14 my-2 rounded-full bg-[#FFF6D6] flex items-center justify-center text-2xl">🐶</div>
+            <div class="w-full bg-[#FCE8EF] rounded-full py-0.5 px-2 text-[9px] font-eng font-bold text-[#9C6549]">🩷 39,000</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 8] บล็อกโปรไฟล์สีฟ้าพาสเทล (wait a minute!! ~ Namiii) -->
+      <section class="bg-white rounded-[26px] p-4 border-2 border-[#D6ECFF] shadow-sm space-y-3">
+        <div class="inline-block bg-[#DCEEFF] text-[#6B9FD4] font-eng text-[10px] px-3 py-0.5 rounded-full">
+          wait a minute!!
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center">
+          <div class="col-span-7 space-y-1.5">
+            <div class="font-eng font-bold text-lg text-[#B5D6F6]">
+              # 🎀 ° ⌒ Namiii ୨୧
+            </div>
+            <div class="text-xs font-eng text-[#6C9FD4] space-y-1">
+              <div>❐ &nbsp; snowflake bunni . ☁️</div>
+              <div>❐ &nbsp; blue sky yey &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; . ☁️</div>
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              <span class="px-2.5 py-0.5 rounded-full bg-[#EBF5FF] text-[#8AB6E6] font-eng text-[9px]">winter</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#EBF5FF] text-[#8AB6E6] font-eng text-[9px]">cozy</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-[#EBF5FF] text-[#8AB6E6] font-eng text-[9px]">lazy</span>
+            </div>
+          </div>
+
+          <div class="col-span-5">
+            <div class="aspect-square rounded-2xl border-2 border-[#DCEEFF] bg-[#F5FAFF] overflow-hidden p-1 relative">
+              <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=300&q=80"
+                   onerror="this.src='https://placehold.co/200x200/EBF5FF/6C9FD4?text=Namiii'"
+                   alt="Namiii"
+                   class="w-full h-full object-cover rounded-xl" />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="bg-[#C6E2FF] text-white font-eng font-semibold text-xs py-1.5 px-3 rounded-full text-center">
+            ✎ Edit profile
+          </div>
+          <div class="bg-[#C6E2FF] text-white font-eng font-semibold text-xs py-1.5 px-3 rounded-full text-center">
+            Member since 2026
+          </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-2.5 items-center pt-1">
+          <div class="col-span-7 bg-[#E6F4FF] rounded-2xl p-3 text-[#7BAFD9] font-eng text-[10px] space-y-1 relative">
+            <div class="font-bold text-white text-sm">About me</div>
+            <p>• รับออกแบบธีมร้าน / เติมเกม</p>
+            <p>• งานไว ตรงปก แก้ไขฟรี</p>
+          </div>
+          <div onclick="openInfoModal('ตัวอย่างผลงาน', 'แกลเลอรีรวมผลงานบริการออกแบบและดูแลไอดีทั้งหมดของร้าน moririn')"
+               class="cursor-pointer col-span-5 bg-[#F2F8FF] border border-[#D6ECFF] rounded-2xl h-24 flex flex-col items-center justify-center relative">
+            <span class="font-cute text-3xl font-bold text-[#8F705D]">รูป</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- [ภาพที่ 8] หน้าต่างแชทสีชมพู + เครื่องเล่นเพลง SCAN HERE "รูป" -->
+      <section class="bg-[#F9E3EB] rounded-[26px] p-3.5 border-2 border-[#F5C6D6] shadow-sm">
+        <div class="grid grid-cols-12 gap-2 items-end">
+          <div class="col-span-6 space-y-2">
+            <div class="bg-[#F4B8CB] rounded-full px-2.5 py-1 flex items-center gap-1.5 border border-white">
+              <span class="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[10px]">👩🏻</span>
+              <div class="text-[8px] font-eng text-[#6E4753] leading-tight truncate">
+                <div>@kaelyserein</div>
+                <div class="font-bold">(+63) 900 *** 1234</div>
+              </div>
+            </div>
+            <div class="bg-[#F4B8CB] rounded-full px-2.5 py-1 flex items-center gap-1.5 border border-white">
+              <span class="w-5 h-5 rounded-full bg-white flex items-center justify-center text-[10px]">👩🏻</span>
+              <div class="text-[8px] font-eng text-[#6E4753] leading-tight truncate">
+                <div>@kaelyserein</div>
+                <div class="font-bold">Initial: K•Y S.</div>
+              </div>
+            </div>
+
+            <div onclick="openInfoModal('SCAN HERE — ชำระค่าบริการ', 'สแกน QR Code เพื่อชำระเงินและส่งสลิปยืนยันในแชทร้านได้เลยค่ะ')"
+                 class="cursor-pointer bg-[#DCE8F7] p-2.5 rounded-2xl border-2 border-[#F3B2C8] shadow-md -rotate-2">
+              <div class="text-[#E67A99] text-[10px] mb-1">🩷 🩷 🩷</div>
+              <div class="bg-[#F598B6] rounded-xl p-2.5 text-center text-white">
+                <div class="font-eng font-bold text-xs mb-1">SCAN HERE</div>
+                <div class="bg-[#F8B6CB] border-2 border-dashed border-white rounded-lg py-4 flex flex-col items-center justify-center">
+                  <span class="font-cute text-3xl font-bold text-[#8F705D]">รูป</span>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg mt-2 py-1 px-2 flex items-center justify-between text-[#E67A99] text-[10px] font-bold">
+                <span>+</span><span>⏮</span><span>⏸</span><span>⏭</span><span>•••</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-6 bg-[#FFB8D1] rounded-2xl p-2 border-2 border-[#F28FB2] shadow-md">
+            <div class="flex justify-end gap-1 mb-1.5">
+              <span class="w-3.5 h-3.5 bg-[#FFD6E6] border border-[#E0799C] text-[8px] flex items-center justify-center">_</span>
+              <span class="w-3.5 h-3.5 bg-[#FFD6E6] border border-[#E0799C] text-[8px] flex items-center justify-center">□</span>
+              <span class="w-3.5 h-3.5 bg-[#FFD6E6] border border-[#E0799C] text-[8px] flex items-center justify-center">×</span>
+            </div>
+
+            <div class="bg-white rounded-xl p-2 space-y-2 text-[9px] font-eng text-[#BA6882]">
+              <div class="border border-[#F4B8CB] rounded-full px-2 py-0.5 text-center text-[8px] truncate">
+                @kaelyserein
+              </div>
+              <div class="bg-[#FFF5F8] border border-[#F29BB7] rounded-xl p-1.5 text-center">
+                Where can I pay?
+              </div>
+              <div class="bg-[#FFF5F8] border border-[#F29BB7] rounded-xl p-1.5 text-center ml-2">
+                You can scan here
+              </div>
+              <div class="bg-[#FFF5F8] border border-[#F29BB7] rounded-xl p-1.5 text-center mr-2">
+                Okay!
+              </div>
+              <div class="bg-[#FFF5F8] border border-[#F29BB7] rounded-xl p-1.5 text-center ml-1">
+                Don't forget to send a receipt
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <!-- =========================================================
+       FIXED BOTTOM NAVIGATION BAR (4 แท็บเรียงแถวเดียว ทรงแคปซูล)
+       ========================================================= -->
+  <nav aria-label="เมนูหลักด้านล่าง"
+       style="padding-bottom: calc(var(--safe-bottom) + 0.6rem);"
+       class="fixed bottom-0 left-0 right-0 z-40 pointer-events-none flex justify-center px-3 pt-2">
+    <div class="pointer-events-auto w-full max-w-[456px] bg-[#FCF9F5]/95 backdrop-blur-md border-2 border-[#F3E5DC] rounded-full p-1.5 bottom-nav-shadow grid grid-cols-4 gap-1">
+
+      <button type="button" id="nav-btn-home" onclick="navigateTo('home')"
+              class=" flex flex-col items-center justify-center py-2 px-1 rounded-full transition-all duration-200 whitespace-nowrap bg-[#FAD4DF] text-[#523B30]">
+        <span class="text-base leading-none mb-1">🏠</span>
+        <span class="text-[11px] font-semibold leading-none">หน้าแรก</span>
+        <span id="indicator-home" class="w-4 h-1 rounded-full bg-[#E3839B] mt-1"></span>
+      </button>
+
+      <button type="button" id="nav-btn-shop" onclick="navigateTo('shop')"
+              class="flex flex-col items-center justify-center py-2 px-1 rounded-full transition-all duration-200 whitespace-nowrap text-[#9D8171]">
+        <span class="text-base leading-none mb-1">🛍️</span>
+        <span class="text-[11px] font-semibold leading-none">ขายรหัส</span>
+        <span id="indicator-shop" class="w-4 h-1 rounded-full bg-transparent mt-1"></span>
+      </button>
+
+      <button type="button" id="nav-btn-rental" onclick="navigateTo('rental')"
+              class="flex flex-col items-center justify-center py-2 px-1 rounded-full transition-all duration-200 whitespace-nowrap text-[#9D8171]">
+        <span class="text-base leading-none mb-1">🔑</span>
+        <span class="text-[11px] font-semibold leading-none">เช่ารหัส</span>
+        <span id="indicator-rental" class="w-4 h-1 rounded-full bg-transparent mt-1"></span>
+      </button>
+
+      <button type="button" id="nav-btn-services" onclick="navigateTo('services')"
+              class="flex flex-col items-center justify-center py-2 px-1 rounded-full transition-all duration-200 whitespace-nowrap text-[#9D8171]">
+        <span class="text-base leading-none mb-1">✨</span>
+        <span class="text-[11px] font-semibold leading-none">บริการ</span>
+        <span id="indicator-services" class="w-4 h-1 rounded-full bg-transparent mt-1"></span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       POPUP MODAL
+       ========================================================= -->
+  <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/45 p-4">
+    <div class="bg-[#FCF9F5] w-full max-w-[390px] rounded-[28px] border-2 border-[#F5D0DC] shadow-2xl overflow-hidden">
+      <div class="bg-[#FAD4DF] px-4 py-3 flex items-center justify-between border-b border-[#F3B8C8]">
+        <h3 id="modal-title" class="font-bold text-sm text-[#6E5346]">รายละเอียด</h3>
+        <button type="button" onclick="closeModal()" class="w-7 h-7 rounded-full bg-white text-[#6E5346] flex items-center justify-center text-xs font-bold">
+          ✕
+        </button>
+      </div>
+      <div id="modal-body" class="p-4 space-y-3 text-xs text-[#6E5346] max-h-[70vh] overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- Toast Box -->
+  <div id="toast-box" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 hidden bg-[#6E5346] text-white text-xs px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
+    <span id="toast-text">แจ้งเตือน</span>
+  </div>
+
+  <!-- =========================================================
+       SAFE JAVASCRIPT (No blocked storage/history calls in iframe)
+       ========================================================= -->
+  <script>
+    const SUPABASE_CONFIG = {
+      url: 'https://your-project.supabase.co',
+      anonKey: 'public-anon-key-placeholder'
+    };
+
+    const APP_DATA = {
+      highlights: [
+        { id: 'hl-1', time: '16:57', dateLabel: 'พ. 16 ก.ค.', bottomTag: 'เช่ารหัส ♡ 🐝', slipText: 'เงินเข้า +180.00 บาท', img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80' },
+        { id: 'hl-2', time: '19:01', dateLabel: 'ส. 14 ส.ค.', bottomTag: 'Aug 69 🎀', slipText: 'เงินเข้า +1,000.00 บาท', img: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80' },
+        { id: 'hl-3', time: '17:33', dateLabel: 'อา. 10 ก.ค.', bottomTag: 'Jul 69 🌷', slipText: 'เงินเข้า +1,000.00 บาท', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80' },
+        { id: 'hl-4', time: '16:20', dateLabel: 'พ. 22 มิ.ย.', bottomTag: 'Jun 69 ⭐', slipText: 'เงินเข้า +450.00 บาท', img: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=400&q=80' }
+      ],
+      promotions: [
+        { title: 'ลด 10% ลูกค้าใหม่', detail: 'ลูกค้าใหม่รับส่วนลดทันที 10% เมื่อซื้อหรือเช่ารหัสครั้งแรกกับทางร้าน' },
+        { title: 'เช่า 5 ชม. แถม 1', detail: 'เช่ารหัสครบ 5 ชั่วโมงในบิลเดียว แถมฟรีทันทีอีก 1 ชั่วโมงเต็ม' },
+        { title: 'สะสมแต้มแลกของ', detail: 'ทุกยอด 50 บาท รับ 1 แต้ม สะสมครบ 10 แต้มแลกชั่วโมงเช่าฟรี' },
+        { title: 'โปรโมชั่นวันเกิด', detail: 'แสดงบัตรประชาชนตรงเดือนเกิด รับส่วนลดพิเศษสูงสุด 15%' }
+      ],
+      faqs: [
+        { q: 'จ่ายเงินช่องทางไหน?', a: 'รองรับธนาคารกสิกรไทย, พร้อมเพย์ (PromptPay) และ TrueMoney Wallet ค่ะ' },
+        { q: 'เช่าต้องมัดจำไหม?', a: 'ไม่ต้องวางมัดจำค่ะ ชำระแค่ค่าเช่าตามชั่วโมงก็เข้าเล่นได้เลย' },
+        { q: 'เติมเกมกี่นาทีเข้า?', a: 'ใช้เวลาดำเนินการประมาณ 3-5 นาทีหลังแจ้งสลิปโอนเงินค่ะ' },
+        { q: 'มีปัญหาติดต่อใคร?', a: 'ทักแชทแอดมินร้าน moririn ได้ตลอด 24 ชม. เลยค่ะ' }
+      ],
+      shopCategories: ['ทั้งหมด', 'ROV 🧁 ♡.', 'ปีกทรง ☕ ♡.'],
+      shopProducts: [
+        { id: 'S01', code: 'S01', category: 'ROV 🧁 ♡.', title: 'สกิน 1000+   อดีตกลอเรียส', price: '฿ 100,000 bhat', badge: 'รับผ่อน', status: 'พร้อมขาย', details: 'ไอดีหลักสกินแรร์ครบ 1,000+ สกิน อดีตแรงค์ Glorious เปลี่ยนข้อมูลได้ครบทุกช่องทาง' },
+        { id: 'S02', code: 'S02', category: 'ปีกทรง ☕ ♡.', title: 'สกิน 1000+   อดีตกลอเรียส', price: '฿ 100,000 bhat', badge: 'รับผ่อน', status: 'พร้อมขาย', details: 'ไอดีปีกทรงเก่าแรร์ลิมิเต็ด สกินคอลแลปครบ รับทั้งสดและผ่อน' },
+        { id: 'S03', code: 'S03', category: 'ROV 🧁 ♡.', title: 'สกิน 850+   เมจฟูลสกิน', price: '฿ 45,900 bhat', badge: 'รับผ่อน', status: 'พร้อมขาย', details: 'สายเมจสกินครบ พร้อมเปลี่ยนเมลและรหัสผ่านทันที' },
+        { id: 'S04', code: 'S04', category: 'ปีกทรง ☕ ♡.', title: 'สกิน 920+   แรร์ยุคแรก', price: '฿ 68,000 bhat', badge: 'รับผ่อน', status: 'ติดจองผ่อน', details: 'ไอดีแรร์ยุคบุกเบิก ทรงผมและปีกครบเซ็ต' }
+      ],
+      rentalCategories: ['ทั้งหมด', 'ตัว Hot ทางร้าน', 'รหัส Lv.90+', 'ปีกทรงเก่า - ปีกทอง'],
+      rentalProducts: [
+        {
+          id: 'R01', name: 'MN02 ( 7/18 แร็คคู่ ss1 ...', rateText: '1 ชั่วโมง 70 ฿', codeTag: 'mm02', status: 'available', category: 'ตัว Hot ทางร้าน',
+          img: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80',
+          rates: [{ duration: '1 ชั่วโมง', price: '70 ฿' }, { duration: '3 ชั่วโมง', price: '190 ฿' }, { duration: '5 ชั่วโมง (แถม 1 ชม.)', price: '320 ฿' }],
+          desc: 'รหัสตัวตึงประจำร้าน แร็คคู่ SS1 ชุดแรร์ครบ พร้อมเข้าเล่นทันที'
+        },
+        {
+          id: 'R02', name: 'S02 ( Lv.90 7/13 8/1 เ...', rateText: '1 ชั่วโมง 65 ฿', codeTag: 'mm03', status: 'busy', category: 'รหัส Lv.90+',
+          img: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80',
+          rates: [{ duration: '1 ชั่วโมง', price: '65 ฿' }, { duration: '3 ชั่วโมง', price: '180 ฿' }, { duration: '5 ชั่วโมง (แถม 1 ชม.)', price: '300 ฿' }],
+          desc: 'เลเวล 90 จัดเต็มชุดแฟชั่น สามารถจองคิวถัดไปได้ทันที'
+        },
+        {
+          id: 'R03', name: 'MN05 ( ปีกทองลิมิเต็ด ฟูล...', rateText: '1 ชั่วโมง 75 ฿', codeTag: 'mm05', status: 'available', category: 'ปีกทรงเก่า - ปีกทอง',
+          img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=500&q=80',
+          rates: [{ duration: '1 ชั่วโมง', price: '75 ฿' }, { duration: '3 ชั่วโมง', price: '200 ฿' }],
+          desc: 'ปีกทรงเก่าและปีกทองครบเซ็ต สถานะว่างพร้อมเช่า'
+        },
+        {
+          id: 'R04', name: 'S09 ( ตัว Hot สกินครบ...', rateText: '1 ชั่วโมง 60 ฿', codeTag: 'mm09', status: 'available', category: 'ตัว Hot ทางร้าน',
+          img: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=500&q=80',
+          rates: [{ duration: '1 ชั่วโมง', price: '60 ฿' }, { duration: '3 ชั่วโมง', price: '165 ฿' }],
+          desc: 'รหัสยอดฮิตราคาประหยัด สกินครบพร้อมลงแรงค์'
+        }
+      ],
+      servicesList: [
+        { id: 0, type: 'DESSERT', price: '1,320円', pricePosition: 'top-right', jpTitle: 'さいっきょうのステージパンケーキ ~Follower1000万人~', subDesc: 'บริการทำป้ายร้านพาสเทล ฟรีแก้ไข 3 ครั้ง', img: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=400&q=80' },
+        { id: 1, type: 'FOOD', price: '1,760円', pricePosition: 'bottom-right', jpTitle: 'ぴえん猫ホットドッグ', subDesc: 'บริการออกแบบเว็บ Carrd / Scrapbook', img: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?auto=format&fit=crop&w=400&q=80' },
+        { id: 2, type: 'DESSERT', price: '1,320円', pricePosition: 'top-right', jpTitle: 'カラマーゾフのカッコよく生きようぜプレート', subDesc: 'บริการฝากขาย-ปล่อยเช่ารหัสผ่านร้าน', img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80' },
+        { id: 3, type: 'FOOD', price: '1,760円', pricePosition: 'bottom-right', jpTitle: 'かちぇのブラックカレー 🎵', subDesc: 'บริการเติมเกมพาส & ดูแลไอดีรายสัปดาห์', img: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=400&q=80' },
+        { id: 4, type: 'SANRIO SET', price: '39,000 IDR', jpTitle: 'Hazy Sleep — Kitty Pack', subDesc: 'แพ็กเกจธีมโปรไฟล์สีชมพูพาสเทลสุดคิ้วท์' },
+        { id: 5, type: 'SANRIO SET', price: '39,000 IDR', jpTitle: 'Hazy Sleep — My Melody Pack', subDesc: 'แพ็กเกจธีมโปรไฟล์ My Melody เปลี่ยนสีฟรี' },
+        { id: 6, type: 'SANRIO SET', price: '39,000 IDR', jpTitle: 'Starry Sleep — Pompompurin Pack', subDesc: 'แพ็กเกจธีมโปรไฟล์โทนเหลืองพาสเทลละมุนตา' }
+      ]
+    };
+
+    let activeShopCategory = 'ทั้งหมด';
+    let activeRentalCategory = 'ทั้งหมด';
+    let activeRentalStatusFilter = 'all';
+
+    function renderHomeHighlights() {
+      const container = document.getElementById('home-highlights-list');
+      if (!container) return;
+      container.innerHTML = APP_DATA.highlights.map(item => `
+        <div onclick="openHighlightModal('${item.id}')"
+             class="cursor-pointer shrink-0 w-[102px] h-[162px] rounded-2xl overflow-hidden border border-[#E5D8CE] relative bg-[#9E958E]">
+          <img src="${item.img}"
+               onerror="this.src='https://placehold.co/200x320/9E958E/FFFFFF?text=Review'"
+               alt="${item.bottomTag}"
+               class="w-full h-full object-cover opacity-85" />
+          <div class="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/70"></div>
+          <div class="absolute top-1.5 inset-x-0 text-center text-white">
+            <div class="text-[7px] opacity-85">${item.dateLabel}</div>
+            <div class="font-eng font-semibold text-base leading-none">${item.time}</div>
+          </div>
+          <div class="absolute bottom-5 inset-x-1 bg-white/95 rounded-lg p-1 flex items-center gap-1">
+            <span class="w-3 h-3 rounded-full bg-[#22A861] text-white text-[7px] flex items-center justify-center shrink-0">✔</span>
+            <span class="text-[7px] text-[#4A3B32] font-semibold truncate">${item.slipText}</span>
+          </div>
+          <div class="absolute bottom-1 inset-x-1.5 text-[8px] font-medium text-white truncate">
+            ${item.bottomTag}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderHomeAccordions() {
+      const promoContainer = document.getElementById('promo-accordion-container');
+      if (promoContainer) {
+        promoContainer.innerHTML = APP_DATA.promotions.map((p, idx) => `
+          <div class="border border-[#6E5346] rounded-full overflow-hidden bg-white">
+            <button type="button" onclick="toggleElement('promo-detail-${idx}')"
+                    class="w-full px-3 py-1 flex items-center justify-between text-[10px] font-semibold text-[#523B30]">
+              <span class="truncate">${p.title}</span>
+              <span class="text-xs font-bold ml-1">+</span>
+            </button>
+            <div id="promo-detail-${idx}" class="hidden px-3 pb-2 pt-1 text-[10px] text-[#7D6356] bg-[#FFF9FB] border-t border-[#F2E4DC]">
+              ${p.detail}
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const faqContainer = document.getElementById('faq-accordion-container');
+      if (faqContainer) {
+        faqContainer.innerHTML = APP_DATA.faqs.map((f, idx) => `
+          <div class="border border-[#6E5346] rounded-full overflow-hidden bg-white">
+            <button type="button" onclick="toggleElement('faq-detail-${idx}')"
+                    class="w-full px-3 py-1 flex items-center justify-between text-[10px] font-semibold text-[#523B30]">
+              <span class="truncate">${f.q}</span>
+              <span class="text-xs font-bold ml-1">+</span>
+            </button>
+            <div id="faq-detail-${idx}" class="hidden px-3 pb-2 pt-1 text-[10px] text-[#7D6356] bg-[#FFF9FB] border-t border-[#F2E4DC]">
+              ${f.a}
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderShopSection() {
+      const tabContainer = document.getElementById('shop-category-tabs');
+      if (tabContainer) {
+        tabContainer.innerHTML = APP_DATA.shopCategories.map(cat => {
+          const isActive = cat === activeShopCategory;
+          return `
+            <button type="button" onclick="setShopCategory('${cat}')"
+                    class="px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap border ${
+                      isActive
+                        ? 'bg-[#FADCE4] border-[#ECAEC0] text-[#6E5346] font-bold'
+                        : 'bg-white border-[#EFE2D8] text-[#8C7061]'
+                    }">
+              ${cat}
+            </button>
+          `;
+        }).join('');
+      }
+
+      const filtered = activeShopCategory === 'ทั้งหมด'
+        ? APP_DATA.shopProducts
+        : APP_DATA.shopProducts.filter(item => item.category === activeShopCategory);
+
+      const gridContainer = document.getElementById('shop-products-grid');
+      if (gridContainer) {
+        gridContainer.innerHTML = filtered.map(item => `
+          <div onclick="openShopProductModal('${item.id}')"
+               class="cursor-pointer bg-white rounded-[22px] p-2.5 border-2 border-[#E2F0CB] soft-card-shadow flex flex-col">
+            <div class="aspect-square rounded-2xl bg-[#F9EAEF] flex items-center justify-center">
+              <span class="font-eng font-bold text-4xl text-[#9E7682]">${item.code}</span>
+            </div>
+            <div class="pt-2 px-0.5 space-y-1">
+              <div class="text-[10px] font-bold text-[#6E5346] truncate">${item.title}</div>
+              <div class="flex items-center justify-between gap-1">
+                <span class="font-eng font-bold text-[11px] text-[#E3839B] truncate">${item.price}</span>
+                <span class="px-2 py-0.5 rounded-full bg-[#F9C6D9] text-white text-[9px] font-semibold shrink-0">${item.badge}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderRentalSection() {
+      const tabContainer = document.getElementById('rental-category-tabs');
+      if (tabContainer) {
+        tabContainer.innerHTML = APP_DATA.rentalCategories.map(cat => {
+          const isActive = cat === activeRentalCategory && activeRentalStatusFilter === 'all';
+          return `
+            <button type="button" onclick="setRentalCategory('${cat}')"
+                    class="px-3.5 py-1 rounded-full text-xs font-medium whitespace-nowrap border ${
+                      isActive
+                        ? 'bg-[#FADCE4] border-[#ECAEC0] text-[#6E5346] font-bold'
+                        : 'bg-white border-[#EFE2D8] text-[#8C7061]'
+                    }">
+              ${cat}
+            </button>
+          `;
+        }).join('');
+      }
+
+      let filtered = APP_DATA.rentalProducts;
+      if (activeRentalCategory !== 'ทั้งหมด') {
+        filtered = filtered.filter(i => i.category === activeRentalCategory);
+      }
+      if (activeRentalStatusFilter !== 'all') {
+        filtered = filtered.filter(i => i.status === activeRentalStatusFilter);
+      }
+
+      const gridContainer = document.getElementById('rental-products-grid');
+      if (gridContainer) {
+        gridContainer.innerHTML = filtered.map(item => {
+          const isAvailable = item.status === 'available';
+          return `
+            <div onclick="openRentalProductModal('${item.id}')"
+                 class="cursor-pointer bg-white rounded-[22px] p-2.5 border-2 border-[#FCE4EC] soft-card-shadow flex flex-col">
+              <div class="aspect-square rounded-2xl overflow-hidden relative bg-[#3A302C]">
+                <img src="${item.img}"
+                     onerror="this.src='https://placehold.co/300x300/6E5346/FFFFFF?text=${item.codeTag}'"
+                     alt="${item.name}"
+                     class="w-full h-full object-cover" />
+                ${
+                  isAvailable
+                    ? `<span class="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-white/95 text-[#523B30] text-[10px] font-bold shadow">✔ ว่าง</span>`
+                    : `<span class="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-[#6E473B]/95 text-white text-[10px] font-bold shadow">✕ ไม่ว่าง</span>`
+                }
+              </div>
+              <div class="pt-2 px-0.5 space-y-1">
+                <div class="text-[10px] font-bold text-[#3A2E28] truncate">${item.name}</div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold text-[#E3839B] truncate">${item.rateText}</span>
+                  <span class="px-2 py-0.5 rounded-full bg-[#FBF0C9] text-[#8C7061] font-eng font-semibold text-[9px] shrink-0">${item.codeTag}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function renderServicesCafeGrid() {
+      const container = document.getElementById('services-cafe-grid');
+      if (!container) return;
+      const cafeItems = APP_DATA.servicesList.slice(0, 4);
+      container.innerHTML = cafeItems.map(item => `
+        <div onclick="openServiceDetail(${item.id})"
+             class="cursor-pointer bg-white/95 border-2 border-[#D4A6B8] rounded-xl p-2 flex flex-col justify-between relative">
+          <div class="flex items-center justify-between mb-1">
+            <span class="font-eng font-bold text-[10px] text-[#E086A3]">${item.type}</span>
+            <span class="text-xs">⭐</span>
+          </div>
+          <div class="w-11 h-11 rounded-full bg-white border border-[#D4A6B8] flex flex-col items-center justify-center text-[#6E5346] shadow-xs absolute ${
+            item.pricePosition === 'top-right' ? 'top-1.5 right-1.5' : 'bottom-14 right-1.5'
+          } z-10">
+            <span class="font-eng font-bold text-[9px] leading-none">${item.price}</span>
+            <span class="text-[7px] text-[#A68A7B]">税込</span>
+          </div>
+          <div class="h-24 rounded-lg overflow-hidden my-1 bg-[#FCF5F8]">
+            <img src="${item.img}"
+                 onerror="this.src='https://placehold.co/240x180/FAD4DF/6E5346?text=${item.type}'"
+                 alt="${item.type}"
+                 class="w-full h-full object-cover" />
+          </div>
+          <div class="bg-[#FADCE6] border border-[#E5B0C2] rounded-md p-1 text-center text-[8px] font-bold text-[#9C576D] leading-tight">
+            ${item.jpTitle}
+          </div>
+          <div class="bg-white border border-[#E5B0C2] rounded-xs px-1 py-0.5 mt-1 text-[7px] text-[#8C7061] text-center truncate">
+            ${item.subDesc}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const PAGE_META = {
+      home: { label: 'หน้าแรก', emoji: '🏠' },
+      shop: { label: 'ขายรหัส', emoji: '🛍️' },
+      rental: { label: 'เช่ารหัส', emoji: '🔑' },
+      services: { label: 'บริการ', emoji: '✨' }
+    };
+
+    function navigateTo(pageKey, updateHash = true) {
+      if (!PAGE_META[pageKey]) pageKey = 'home';
+
+      ['home', 'shop', 'rental', 'services'].forEach(key => {
+        const viewEl = document.getElementById(`page-${key}`);
+        const btnEl = document.getElementById(`nav-btn-${key}`);
+        const indEl = document.getElementById(`indicator-${key}`);
+
+        if (key === pageKey) {
+          if (viewEl) viewEl.classList.add('active');
+          if (btnEl) {
+            btnEl.classList.add('bg-[#FAD4DF]', 'text-[#523B30]');
+            btnEl.classList.remove('text-[#9D8171]');
+          }
+          if (indEl) {
+            indEl.classList.remove('bg-transparent');
+            indEl.classList.add('bg-[#E3839B]');
+          }
+        } else {
+          if (viewEl) viewEl.classList.remove('active');
+          if (btnEl) {
+            btnEl.classList.remove('bg-[#FAD4DF]', 'text-[#523B30]');
+            btnEl.classList.add('text-[#9D8171]');
+          }
+          if (indEl) {
+            indEl.classList.remove('bg-[#E3839B]');
+            indEl.classList.add('bg-transparent');
+          }
+        }
+      });
+
+      const labelEl = document.getElementById('header-page-label');
+      const emojiEl = document.getElementById('header-page-emoji');
+      if (labelEl) labelEl.textContent = PAGE_META[pageKey].label;
+      if (emojiEl) emojiEl.textContent = PAGE_META[pageKey].emoji;
+
+      if (updateHash) {
+        try {
+          window.location.hash = pageKey;
+        } catch (err) {
+          // Ignore hash restrictions inside sandboxed preview
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('hashchange', () => {
+      const hashPage = (window.location.hash || '').replace('#', '') || 'home';
+      navigateTo(hashPage, false);
+    });
+
+    function toggleElement(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    function setShopCategory(cat) {
+      activeShopCategory = cat;
+      renderShopSection();
+    }
+
+    function setRentalCategory(cat) {
+      activeRentalCategory = cat;
+      activeRentalStatusFilter = 'all';
+      renderRentalSection();
+    }
+
+    function filterRentalByStatus(status) {
+      activeRentalStatusFilter = activeRentalStatusFilter === status ? 'all' : status;
+      renderRentalSection();
+    }
+
+    function openShopProductModal(productId) {
+      const item = APP_DATA.shopProducts.find(p => p.id === productId);
+      if (!item) return;
+      document.getElementById('modal-title').textContent = `รหัสสินค้า ${item.code} — ${item.status}`;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="bg-[#F9EAEF] rounded-2xl h-32 flex flex-col items-center justify-center border border-[#F3CEDB]">
+          <span class="font-eng font-bold text-4xl text-[#9E7682]">${item.code}</span>
+          <span class="text-[10px] text-[#8C7061] mt-1">${item.category}</span>
+        </div>
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-sm text-[#523B30]">${item.title}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-[#D6F3E0] text-[#499F68] text-[10px] font-bold">${item.status}</span>
+          </div>
+          <div class="text-base font-eng font-bold text-[#E3839B]">${item.price} (${item.badge})</div>
+          <p class="text-xs text-[#7D6356] bg-white p-3 rounded-xl border border-[#EFE4DC]">${item.details}</p>
+        </div>
+        <button type="button" onclick="closeModal(); showToast('คัดลอกรหัส ${item.code} แล้ว ทักแชทได้เลยค่ะ ♡')"
+                class="w-full py-2.5 rounded-full bg-[#E3839B] text-white font-bold text-xs">
+          สนใจสั่งซื้อ / ผ่อนรหัส ${item.code}
+        </button>
+      `;
+      showModal();
+    }
+
+    function openRentalProductModal(rentalId) {
+      const item = APP_DATA.rentalProducts.find(p => p.id === rentalId);
+      if (!item) return;
+      const isAvailable = item.status === 'available';
+      document.getElementById('modal-title').textContent = `รายละเอียดเช่ารหัส (${item.codeTag})`;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="rounded-2xl overflow-hidden h-36 relative border border-[#F3CEDB]">
+          <img src="${item.img}" class="w-full h-full object-cover" alt="${item.name}" />
+          <span class="absolute top-2 left-2 px-3 py-0.5 rounded-full text-[10px] font-bold ${
+            isAvailable ? 'bg-[#D6F3E0] text-[#499F68]' : 'bg-[#6E473B] text-white'
+          }">
+            ${isAvailable ? '✔ ว่างพร้อมเช่า' : '✕ ไม่ว่าง (จองคิวได้)'}
+          </span>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm text-[#523B30]">${item.name}</h4>
+          <p class="text-[11px] text-[#8C7061] mt-1">${item.desc}</p>
+        </div>
+        <div class="bg-white rounded-2xl p-3 border border-[#F2E2D8] space-y-1">
+          <div class="font-bold text-xs text-[#6E5346] mb-1">⏱️ ราคาเช่าตามระยะเวลา:</div>
+          ${item.rates.map(r => `
+            <div class="flex items-center justify-between text-xs py-1 border-b border-dashed border-[#F2E6DE] last:border-0">
+              <span>${r.duration}</span>
+              <span class="font-bold text-[#E3839B]">${r.price}</span>
+            </div>
+          `).join('')}
+        </div>
+        <button type="button" onclick="closeModal(); showToast('แจ้งรหัส ${item.codeTag} กับแอดมินได้เลยค่ะ ♡')"
+                class="w-full py-2.5 rounded-full bg-[#E3839B] text-white font-bold text-xs">
+          ${isAvailable ? 'กดเช่ารหัสนี้ทันที' : 'ทักแชทจองคิวถัดไป'}
+        </button>
+      `;
+      showModal();
+    }
+
+    function openHighlightModal(hlId) {
+      const hl = APP_DATA.highlights.find(h => h.id === hlId);
+      if (!hl) return;
+      document.getElementById('modal-title').textContent = `ไฮไลท์รีวิว — ${hl.bottomTag}`;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="rounded-2xl overflow-hidden h-48 relative border border-[#E5D8CE]">
+          <img src="${hl.img}" class="w-full h-full object-cover" alt="${hl.bottomTag}" />
+          <div class="absolute bottom-3 inset-x-3 bg-white/95 rounded-xl p-2 shadow flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-[#22A861] text-white text-xs flex items-center justify-center">✔</span>
+            <div>
+              <div class="text-xs font-bold text-[#523B30]">${hl.slipText}</div>
+              <div class="text-[10px] text-[#8C7061]">${hl.dateLabel} เวลา ${hl.time} น.</div>
+            </div>
+          </div>
+        </div>
+      `;
+      showModal();
+    }
+
+    function openServiceDetail(serviceId) {
+      const srv = APP_DATA.servicesList.find(s => s.id === serviceId);
+      if (!srv) return;
+      document.getElementById('modal-title').textContent = `บริการ — ${srv.type}`;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="bg-[#FADCE6] rounded-2xl p-4 text-center space-y-1 border border-[#F3B8C8]">
+          <div class="text-xs font-eng font-bold text-[#E086A3]">${srv.type}</div>
+          <div class="text-sm font-bold text-[#6E5346]">${srv.jpTitle}</div>
+          <div class="inline-block bg-white px-3 py-0.5 rounded-full font-eng font-bold text-xs text-[#E3839B] mt-1">
+            ราคา ${srv.price}
+          </div>
+        </div>
+        <p class="text-xs text-[#6E5346] bg-white p-3 rounded-xl border border-[#EFE4DC]">${srv.subDesc}</p>
+        <button type="button" onclick="closeModal(); showToast('ทักแชทส่งบรีฟงานบริการได้เลยค่ะ ✨')"
+                class="w-full py-2.5 rounded-full bg-[#E3839B] text-white font-bold text-xs">
+          สั่งทำบริการนี้
+        </button>
+      `;
+      showModal();
+    }
+
+    function openInfoModal(title, message) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="bg-white p-3.5 rounded-2xl border border-[#F2E2D8] text-xs text-[#6E5346] leading-relaxed">
+          ${message}
+        </div>
+        <button type="button" onclick="closeModal()" class="w-full py-2 rounded-full bg-[#FAD4DF] text-[#6E5346] font-bold text-xs">
+          รับทราบ ♡
+        </button>
+      `;
+      showModal();
+    }
+
+    function openAdminModal() {
+      document.getElementById('modal-title').textContent = 'ตั้งค่าระบบ Admin & Supabase';
+      document.getElementById('modal-body').innerHTML = `
+        <div class="space-y-2.5">
+          <div class="bg-[#EBF5FF] border border-[#BCE0FD] rounded-xl p-2.5 text-[11px] text-[#4C7BA8]">
+            พร้อมเชื่อมต่อฐานข้อมูล Supabase สำหรับจัดการรายการขายรหัส, สถานะเช่ารหัส และบริการ
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1">Supabase URL</label>
+            <input id="input-sb-url" type="text" value="${SUPABASE_CONFIG.url}" class="w-full px-3 py-1.5 rounded-xl border border-[#E5D4C8] bg-white text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold mb-1">Supabase Anon Key</label>
+            <input id="input-sb-key" type="password" value="${SUPABASE_CONFIG.anonKey}" class="w-full px-3 py-1.5 rounded-xl border border-[#E5D4C8] bg-white text-xs" />
+          </div>
+          <button type="button" onclick="closeModal(); showToast('บันทึกการตั้งค่าเรียบร้อยแล้ว ✓')" class="w-full py-2 rounded-full bg-[#E3839B] text-white font-bold text-xs">
+            บันทึกการตั้งค่า
+          </button>
+        </div>
+      `;
+      showModal();
+    }
+
+    function showModal() {
+      const m = document.getElementById('detail-modal');
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+    }
+
+    function closeModal() {
+      const m = document.getElementById('detail-modal');
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-text');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 2400);
+    }
+
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') closeModal();
+    });
+
+    // เรียกใช้งานทันทีเมื่อสคริปต์โหลดเสร็จ
+    renderHomeHighlights();
+    renderHomeAccordions();
+    renderShopSection();
+    renderRentalSection();
+    renderServicesCafeGrid();
+    navigateTo('home', false);
+  </script>
+</body>
+</html>
